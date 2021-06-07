@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="Diploma.Views.StartCaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Diploma.Views"
+             xmlns:viewModels="clr-namespace:Diploma.ViewModels"
+             xmlns:behaviors="clr-namespace:Diploma.Behaviors"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=viewModels:MainPageViewModel, IsDesignTimeCreatable=False}"
+             d:DesignHeight="759" d:DesignWidth="1300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Diploma;component/CommonResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="200"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Style="{StaticResource NoticeHeaderTextBlockStyle}" Text="START CASE"/>
+
+        <Grid Grid.Row="1" Margin="24, 0, 24, 0"
+              HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource BaseTextBlockStyle}" Text="From:" Margin="0, 50, 50, 15"/>
+                <TextBlock Grid.Row="0" Grid.Column="3" Style="{StaticResource BaseTextBlockStyle}" Text="Till:" Margin="0, 50, 0, 15"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource BaseTextBlockStyle}" Text="АБ0"
+                           Margin="0, 50, 15, 95"
+                           FontSize="16"
+                           HorizontalAlignment="Right"/>
+
+                <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource BaseInputBoxStyle}"
+                         Margin="0, 0, 50, 50"
+                         HorizontalAlignment="Left"
+                         CaretBrush="White"
+                         Text="{Binding StartDecreeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <!--<dxmvvm:Interaction.Behaviors>
+                        <behaviors:InputBoxBehavior/>
+                    </dxmvvm:Interaction.Behaviors>-->
+                </TextBox>
+
+                <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource BaseTextBlockStyle}" Text="АБ0" 
+                           Margin="0, 50, 15, 95"
+                           FontSize="16"
+                           HorizontalAlignment="Right"/>
+
+                <TextBox Grid.Row="1" Grid.Column="3" Style="{StaticResource BaseInputBoxStyle}"
+                         HorizontalAlignment="Left"
+                         Margin="0, 0, 0, 50"
+                         CaretBrush="{StaticResource DefaultBrush}"
+                         Text="{Binding StopDecreeNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <!--<dxmvvm:Interaction.Behaviors>
+                        <behaviors:InputBoxBehavior/>
+                    </dxmvvm:Interaction.Behaviors>-->
+                </TextBox>
+            </Grid>
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource BaseTextBlockStyle}"
+                       FontSize="18" Text="{Binding Source={StaticResource LocalizedStrings}, Path=MainView_DescriptionText}"
+                       Width="1200" TextWrapping="Wrap"
+                       TextAlignment="Justify"
+                       Margin="24, 0, 24, 0"/>
+        </Grid>
+
+        <Grid Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="248"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Style="{StaticResource BaseButtonStyle}" VerticalAlignment="Bottom"
+                    Command="{Binding RequestDataCommand}"
+                    Margin="24, 0, 24, 45"
+                    IsEnabled="{Binding IsDataValid}">
+                <TextBlock Text="Request"/>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

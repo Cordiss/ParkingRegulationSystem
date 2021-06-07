@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="Diploma.Views.DetailsCaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModels="clr-namespace:Diploma.ViewModels"
+             xmlns:models="clr-namespace:Diploma.Models"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=viewModels:DetailsCaseViewModel, IsDesignTimeCreatable=False}"
+             d:DesignHeight="800" d:DesignWidth="1300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Diploma;component/CommonResourceDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Details" Style="{StaticResource NoticeHeaderTextBlockStyle}"/>
+
+        <Grid Grid.Row="1" Margin="24" Background="#0F3343">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="753"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="1" Margin="0, 24, 24, 24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="Auto" MaxWidth="250"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Car number:" Style="{StaticResource BasicLabelTextBlockStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Car model:" Style="{StaticResource BasicLabelTextBlockStyle}"/>
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Ruling number:" Style="{StaticResource BasicLabelTextBlockStyle}"/>
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Act date:" Style="{StaticResource BasicLabelTextBlockStyle}"/>
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Place:" Style="{StaticResource BasicLabelTextBlockStyle}"/>
+                <TextBlock Grid.Row="7" Grid.Column="0" Text="Evacuation date:" Style="{StaticResource BasicLabelTextBlockStyle}"/>
+                <TextBlock Grid.Row="8" Grid.Column="0" Text="Evacuation address:" Style="{StaticResource BasicLabelTextBlockStyle}"/>
+                <TextBlock Grid.Row="9" Grid.Column="0" Text="Payment status:" Style="{StaticResource BasicLabelTextBlockStyle}"/>
+
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding DecreeModel.Car.Number}" Style="{StaticResource BasicValueTextBlockStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding DecreeModel.Car.Model}" Style="{StaticResource BasicValueTextBlockStyle}"/>
+                <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding DecreeModel.RulingNumber}" Style="{StaticResource BasicValueTextBlockStyle}"/>
+                <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding DecreeModel.ActData}" Style="{StaticResource BasicValueTextBlockStyle}"/>
+                <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding DecreeModel.Place}" Style="{StaticResource BasicValueTextBlockStyle}"/>
+                <TextBlock Grid.Row="7" Grid.Column="2" Text="{Binding DecreeModel.EvacuationDateTime}" Style="{StaticResource BasicValueTextBlockStyle}"/>
+                <TextBlock Grid.Row="8" Grid.Column="2" Text="{Binding DecreeModel.EvacuationAddress}" Style="{StaticResource BasicValueTextBlockStyle}"/>
+                <TextBlock Grid.Row="9" Grid.Column="2">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BasicValueTextBlockStyle}">
+                            <Setter Property="Text" Value="{Binding Source={StaticResource LocalizedStrings}, Path=DecreeView_Payment_PaidText}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DecreeModel.PaymentStatus}" Value="False">
+                                    <Setter Property="Text" Value="{Binding Source={StaticResource LocalizedStrings}, Path=DecreeView_Payment_UnpaidText}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource RedBrush}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </Grid>
+
+            <Grid Grid.Column="0" Margin="24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="600"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Width="600" Source="{Binding CurrentImage}" VerticalAlignment="Top"/>
+
+                <ItemsControl Grid.Column="1" ItemsSource="{Binding ImageSourceList, Mode=TwoWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Vertical" ItemWidth="100"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:ImageModel}">
+                            <Button Width="100" 
+                                    Height="100"
+                                    Margin="5, 0, 0, 5"
+                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ItemsControl}, Path=DataContext.ChangeImageCommand}"
+                                    CommandParameter="{Binding ImagePath}">
+                                <Image SnapsToDevicePixels="True" Margin="-10, 0, -6, 0"  Stretch="Fill" Source="{Binding Image}"/>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
