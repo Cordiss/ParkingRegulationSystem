@@ -68,18 +68,27 @@ namespace Diploma.ViewModels
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets starting ruling number.
+        /// </summary>
         public string StartDecreeNumber
         {
             get => _startDecreeNumber;
             set => SetProperty(ref _startDecreeNumber, value);
         }
 
+        /// <summary>
+        /// Gets or sets ending ruling number.
+        /// </summary>
         public string StopDecreeNumber
         {
             get => _stopDecreeNumber;
             set => SetProperty(ref _stopDecreeNumber, value);
         }
 
+        /// <summary>
+        /// Gets status of data validation.
+        /// </summary>
         [DependsOnProperty(nameof(StartDecreeNumber))]
         [DependsOnProperty(nameof(StopDecreeNumber))]
         public bool IsDataValid => 
@@ -90,12 +99,18 @@ namespace Diploma.ViewModels
 
         #region Commands
 
+        /// <summary>
+        /// Gets request data command.
+        /// </summary>
         public ICommand RequestDataCommand { get; }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Executes request of data.
+        /// </summary>
         private void ExecuteRequestDataCommand()
         {
             DefaultMessenger.Send(new IntraMessageRequestData(RequestDataMessageStatus.Started, StartDecreeNumber, StopDecreeNumber));

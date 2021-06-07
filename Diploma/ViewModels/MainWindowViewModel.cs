@@ -14,24 +14,51 @@ using HttpClient.Messaging;
 
 namespace Diploma.ViewModels
 {
+    /// <summary>
+    /// Defines main ViewModel of UI.
+    /// </summary>
     public class MainWindowViewModel : ViewModelBase
     { 
         #region Fields
 
+        /// <summary>
+        /// Backend filed for <see cref="CurrentViewModel"/> property.
+        /// </summary>
         private ViewModelBase _currentViewModel;
 
+        /// <summary>
+        /// Backend field for <see cref="MainPageViewModel"/> property.
+        /// </summary>
         private MainPageViewModel _mainPageViewModel;
+
+        /// <summary>
+        /// Backend field for <see cref="DecreesViewModel"/> property.
+        /// </summary>
         private DecreesViewModel _decreesViewModel;
+
+        /// <summary>
+        /// Backend field for <see cref="WaiterViewModel"/> property.
+        /// </summary>
         private WaiterViewModel _waiterViewModel;
 
+        /// <summary>
+        /// Reference to <see cref="IViewModelFactory"/> interface.
+        /// </summary>
         private readonly IViewModelFactory _viewModelFactory;
 
+        /// <summary>
+        /// Backend field for <see cref="IsWaiter"/>.
+        /// </summary>
         private bool _isWaiter;
 
         #endregion
 
         #region _ctors
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="viewModelFactory">Reference to <see cref="IViewModelFactory"/> interface.</param>
         public MainWindowViewModel(IViewModelFactory viewModelFactory)
         {
             _viewModelFactory = viewModelFactory ?? throw new ArgumentNullException(nameof(viewModelFactory));
@@ -60,48 +87,73 @@ namespace Diploma.ViewModels
 
         #region Properties
 
+        /// <summary>
+        /// Gets DecreesViewModel instance.
+        /// </summary>
         public DecreesViewModel DecreesViewModel
         {
             get => _decreesViewModel;
             private set => SetProperty(ref _decreesViewModel, value);
         }
 
+        /// <summary>
+        /// Gets MainPageViewModel instance.
+        /// </summary>
         public MainPageViewModel MainPageViewModel
         {
             get => _mainPageViewModel;
             private set => SetProperty(ref _mainPageViewModel, value);
         }
 
+        /// <summary>
+        /// Gets WaiterViewModel instance.
+        /// </summary>
         public WaiterViewModel WaiterViewModel
         {
             get => _waiterViewModel;
             private set => SetProperty(ref _waiterViewModel, value);
         }
 
+        /// <summary>
+        /// Gets current showing view model instance.
+        /// </summary>
         public ViewModelBase CurrentViewModel
         {
             get => _currentViewModel;
             private set => SetProperty(ref _currentViewModel, value);
         }
 
+        /// <summary>
+        /// Gets flag that indicates if waiter screen is currently shown.
+        /// </summary>
         public bool IsWaiter
         {
             get => _isWaiter;
             private set => SetProperty(ref _isWaiter, value);
         }
 
+        /// <summary>
+        /// Gets collection of menu item view models.
+        /// </summary>
         public List<BaseMenuItemViewModel> MenuItems { get; }
 
         #endregion
 
         #region Commands
 
+        /// <summary>
+        /// Gets command that closes application.
+        /// </summary>
         public ICommand CloseCommand { get; }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Handler for <see cref="IntraMessageErrorException"/> messages.
+        /// </summary>
+        /// <param name="message">Message.</param>
         private void OnExceptionReceived(IntraMessageErrorException message)
         {
             try
@@ -114,6 +166,10 @@ namespace Diploma.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handler for <see cref="IntraMessageViewModelSwitch"/> messages.
+        /// </summary>
+        /// <param name="message">Message.</param>
         private void OnViewModelSwitch(IntraMessageViewModelSwitch message)
         {
             if (message.ViewModelType == typeof(DecreesViewModel))
@@ -137,6 +193,10 @@ namespace Diploma.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handler for <see cref="IntraMessageRequestData"/> messages.
+        /// </summary>
+        /// <param name="message">Message.</param>
         private void OnRequestDataMessageReceived(IntraMessageRequestData message)
         {
             switch (message.Status)
@@ -164,6 +224,10 @@ namespace Diploma.ViewModels
             }
         }
 
+        /// <summary>
+        /// Handler for <see cref="IntraMessageOnDataOperationEnded"/> messages.
+        /// </summary>
+        /// <param name="message">Message.</param>
         private void OnNewDataWasLoaded(IntraMessageOnDataOperationEnded message)
         {
             if (!IsWaiter) return;
@@ -179,6 +243,9 @@ namespace Diploma.ViewModels
             }
         }
 
+        /// <summary>
+        /// Executes <see cref="CloseCommand"/>.
+        /// </summary>
         private void ShutdownExecute()
         {
             Application.Current.Shutdown();
