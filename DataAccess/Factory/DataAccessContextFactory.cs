@@ -2,12 +2,25 @@
 
 namespace DataAccess.Factory
 {
+    /// <summary>
+    /// Defines factory for <see cref="DataAccessContext"/> object.
+    /// </summary>
     public static class DataAccessContextFactory
     {
+        /// <summary>
+        /// Local instance.
+        /// </summary>
         private static volatile DataAccessContext _dataAccessContext;
 
+        /// <summary>
+        /// Synchronization object for safely access to local instance.
+        /// </summary>
         private static readonly object DataContextSyncRoot = new object();
 
+        /// <summary>
+        /// Creates new instance of <see cref="DataAccessContext"/>.
+        /// </summary>
+        /// <returns><see cref="DataAccessContext"/> object.</returns>
         public static DataAccessContext GetDataContext()
         {
             if (_dataAccessContext == null)

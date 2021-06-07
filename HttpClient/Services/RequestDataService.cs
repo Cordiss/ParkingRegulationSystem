@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+
 using DataAccess.Models;
 using DataAccess.Repositories;
+
 using DevExpress.Mvvm;
-using DevExpress.Mvvm.Native;
+
 using HttpClient.Enums;
-using HttpClient.Events;
 using HttpClient.Helpers;
 using HttpClient.Messaging;
 using HttpClient.Models;
@@ -97,7 +97,7 @@ namespace HttpClient.Services
             }
 
             Task.WaitAll(tasks.ToArray());
-            Task.Run(() => SavedEntitiesOnCollectionModified()).GetAwaiter().GetResult();
+            Task.Run(() => SaveEntity()).GetAwaiter().GetResult();
             _messenger.Send(new IntraMessageRequestData(RequestDataMessageStatus.Completed));
         }
 
@@ -133,9 +133,9 @@ namespace HttpClient.Services
         }
 
         /// <summary>
-        /// Handler of <see cref="CustomQueue{T}"/> collection modifications.
+        /// Saves entity into database.
         /// </summary>
-        private void SavedEntitiesOnCollectionModified()
+        private void SaveEntity()
         {
             while (!_savedEntities.IsEmpty)
             {
