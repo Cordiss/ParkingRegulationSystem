@@ -25,15 +25,12 @@ namespace HttpClient.Helpers
         /// </summary>
         private readonly Queue<T> _queue;
 
-        private readonly int? _maxEntities;
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        public CustomQueue(int? maxEntities = null)
+        public CustomQueue()
         {
             _queue = new Queue<T>();
-            _maxEntities = maxEntities;
         }
 
         public bool IsEmpty
@@ -56,15 +53,6 @@ namespace HttpClient.Helpers
             lock (_syncRoot)
             {
                 _queue.Enqueue(entity);
-
-                if (_maxEntities.HasValue)
-                {
-                    if (_maxEntities.Value == _queue.Count)
-                    {
-                        CollectionModified?.Invoke(this, new CollectionModifiedEventArgs<T>(entity));
-                        return;
-                    }
-                }
 
                 CollectionModified?.Invoke(this, new CollectionModifiedEventArgs<T>(entity));
             }

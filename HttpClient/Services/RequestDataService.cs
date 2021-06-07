@@ -86,7 +86,7 @@ namespace HttpClient.Services
         {
             List<Task> tasks = new List<Task>();
 
-            _savedEntities = new CustomQueue<UnitedEntity<Decree, Photo>>(100);
+            _savedEntities = new CustomQueue<UnitedEntity<Decree, Photo>>();
 
             foreach (var parameter in parameters)
             {
